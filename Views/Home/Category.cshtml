@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Individual Category Page</title>
+    </head>
+
+    <body>
+        @model ViewCategoryViewModel
+        <h1>Route Worked</h1>
+        <h1>@Model.currentCategory.Name</h1>
+        <div class="products">
+
+            <h2>Products:</h2>
+            @{
+                <ul>
+                    @foreach(Association relation in Model.currentCategory.Associations)
+                    {
+                        <li>@relation.Product.Name</li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <div class="addProduct">
+            <h2>Add Product:</h2>
+            <form asp-action="AddInProduct" asp-route-CategoryId=@Model.currentCategory.CategoryId asp-controller="Home" method="POST">
+                <span asp-validation-for="Association.ProductId"></span>
+                <label asp-for="Association.ProductId">Add Product: </label>
+                <select asp-for="Association.ProductId">
+                    @{
+                        @foreach(Product prod in Model.ProductList)
+                        {
+                            <option value="@prod.ProductId">
+                                <li>@prod.Name</li>
+                            </option>
+                        }
+                    }
+                </select>
+                <input type="submit" value="Add Product">
+            </form>
+        </div>
+      
+
+    </body>
+</html>

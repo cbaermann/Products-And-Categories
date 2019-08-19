@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Individual Project Page</title>
+    </head>
+
+    <body>
+        @model ViewProductViewModel
+        <h1>@Model.currentProduct.Name</h1>
+        <div class="categories">
+            <h2>Categories:</h2>
+            @{
+                <ul>
+                    @foreach(Association relation in Model.currentProduct.Associations)
+                    {
+                        <li>@relation.Category.Name</li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <div class="addCategory">
+            <h2>Add Category:</h2>
+            <form asp-action="AddInCategory" asp-route-ProductId=@Model.currentProduct.ProductId asp-controller="Home" method="POST">
+                <span asp-validation-for="Association.CategoryId"></span>
+                <label asp-for="Association.CategoryId">Add Category: </label>
+                <select asp-for="Association.CategoryId">
+                    @{
+                        @foreach(Category cat in Model.CategoryList)
+                        {
+                            <option value="@cat.CategoryId">
+                                <li>@cat.Name</li>
+                            </option>
+                        }
+                    }
+                </select>
+                <input type="submit" value="Add Category">
+            </form>
+        </div>
+    </body>
+</html>
